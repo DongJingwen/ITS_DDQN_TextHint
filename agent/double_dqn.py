@@ -17,8 +17,10 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from config.config import (
     ACTION_DIM,
+    EPSILON_FIXED,
     EPSILON_MAX,
     EPSILON_MIN,
+    EPSILON_MODE,
     GAMMA,
     LAMBDA_ENTROPY,
     LEARNING_RATE,
@@ -56,6 +58,8 @@ class DoubleDQNAgent:
         gamma: float = GAMMA,
         epsilon_min: float = EPSILON_MIN,
         epsilon_max: float = EPSILON_MAX,
+        epsilon_fixed: float = EPSILON_FIXED,
+        epsilon_mode: str = EPSILON_MODE,
         lambda_entropy: float = LAMBDA_ENTROPY,
         softmax_temperature: float = SOFTMAX_TEMPERATURE,
         target_update_frequency: int = TARGET_UPDATE_FREQUENCY,
@@ -66,6 +70,8 @@ class DoubleDQNAgent:
         self.gamma = gamma
         self.epsilon_min = epsilon_min
         self.epsilon_max = epsilon_max
+        self.epsilon_fixed = epsilon_fixed
+        self.epsilon_mode = epsilon_mode
         self.lambda_entropy = lambda_entropy
         self.softmax_temperature = softmax_temperature
         self.target_update_frequency = target_update_frequency
@@ -80,6 +86,12 @@ class DoubleDQNAgent:
         self.loss_history: list[float] = []
         self.epsilon_history: list[float] = []
         self.update_count = 0
+        self.current_episode = 1
+        self.total_episodes = 1
+
+        valid_modes = {"dynamic_entropy", "fixed", "linear_decay"}
+        if self.epsilon_mode not in valid_modes:
+            raise ValueError(f"epsilon_mode must be one of {sorted(valid_modes)}")
 
     def compute_dynamic_epsilon(self, q_values: torch.Tensor | np.ndarray) -> float:
         """Compute entropy-based epsilon from the current Q-value distribution."""
@@ -97,6 +109,33 @@ class DoubleDQNAgent:
         epsilon = self.epsilon_min + self.lambda_entropy * entropy.item()
         return float(np.clip(epsilon, self.epsilon_min, self.epsilon_max))
 
+    def compute_fixed_epsilon(self) -> float:
+        """Return a fixed epsilon value for ablation studies."""
+        return float(np.clip(self.epsilon_fixed, self.epsilon_min, self.epsilon_max))
+
+    def compute_linear_decay_epsilon(self) -> float:
+        """Linearly decay epsilon from epsilon_max to epsilon_min over episodes."""
+        if self.total_episodes <= 1:
+            return self.epsilon_min
+        progress = (self.current_episode - 1) / (self.total_episodes - 1)
+        epsilon = self.epsilon_max - progress * (self.epsilon_max - self.epsilon_min)
+        return float(np.clip(epsilon, self.epsilon_min, self.epsilon_max))
+
+    def compute_epsilon(self, q_values: torch.Tensor | np.ndarray) -> float:
+        """Compute epsilon according to the configured exploration mode."""
+        if self.epsilon_mode == "dynamic_entropy":
+            return self.compute_dynamic_epsilon(q_values)
+        if self.epsilon_mode == "fixed":
+            return self.compute_fixed_epsilon()
+        if self.epsilon_mode == "linear_decay":
+            return self.compute_linear_decay_epsilon()
+        raise ValueError(f"Unsupported epsilon_mode: {self.epsilon_mode}")
+
+    def set_training_progress(self, current_episode: int, total_episodes: int) -> None:
+        """Set episode progress for linear-decay epsilon."""
+        self.current_episode = max(1, int(current_episode))
+        self.total_episodes = max(1, int(total_episodes))
+
     def select_action(self, state: np.ndarray | list[float]) -> int:
         """Select an action using dynamic epsilon-greedy exploration."""
         state_tensor = torch.as_tensor(state, dtype=torch.float32, device=self.device).unsqueeze(0)
@@ -106,7 +145,7 @@ class DoubleDQNAgent:
             q_values = self.online_network(state_tensor).squeeze(0)
         self.online_network.train()
 
-        epsilon = self.compute_dynamic_epsilon(q_values)
+        epsilon = self.compute_epsilon(q_values)
         self.epsilon_history.append(epsilon)
 
         if random.random() < epsilon:

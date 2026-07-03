@@ -13,6 +13,8 @@ NUM_EPISODES = 500
 MAX_STEPS_PER_EPISODE = 50
 
 # Dynamic epsilon-greedy exploration
+EPSILON_MODE = "dynamic_entropy"
+EPSILON_FIXED = 0.10
 EPSILON_MIN = 0.05
 EPSILON_MAX = 0.80
 LAMBDA_ENTROPY = 0.50

@@ -1,0 +1,4 @@
+episode,epsilon_mode,total_reward,average_loss,average_epsilon,average_attempts,average_response_time,action_0_count,action_1_count,action_2_count,steps
+1,linear_decay,4.832922795498496,1.523438572883606,0.8,1.6,40.049264540180445,0,2,3,5
+2,linear_decay,0.8521807126942879,1.321236777305603,0.425,2.0,41.738314476685446,2,3,0,5
+3,linear_decay,3.051237444383151,1.2135909914970398,0.050000000000000044,1.4,37.85150667402191,0,5,0,5

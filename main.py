@@ -5,13 +5,22 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from agent.double_dqn import DoubleDQNAgent
 from config.config import BATCH_SIZE, BUFFER_SIZE, MAX_STEPS_PER_EPISODE, NUM_EPISODES
+from database.db_manager import DatabaseManager
+from env.environment import TutoringEnvironment
 from evaluation.evaluator import evaluate
+from student.real_user_interface import RealUserSession
 from training.train import train
 from visualization.plot_efficiency import plot_attempts_curve, plot_response_time_curve
 from visualization.plot_hint_distribution import plot_hint_distribution
 from visualization.plot_loss import plot_epsilon_curve, plot_loss_curve
 from visualization.plot_reward import plot_reward_curve
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+DEFAULT_DB_PATH = PROJECT_ROOT / "outputs" / "logs" / "real_user_experiment.db"
+MODEL_DIR = PROJECT_ROOT / "outputs" / "models"
 
 
 def run_training(args: argparse.Namespace) -> Path:
@@ -62,6 +71,51 @@ def run_evaluation(args: argparse.Namespace) -> None:
         )
 
 
+def initialize_database(args: argparse.Namespace) -> Path:
+    db = DatabaseManager(args.db_path)
+    db.initialize_database()
+    db.close()
+    print(f"Database initialized at: {args.db_path}")
+    return args.db_path
+
+
+def _latest_model_path() -> Path:
+    model_files = sorted(MODEL_DIR.glob("double_dqn_*.pt"))
+    if not model_files:
+        raise FileNotFoundError(f"No DDQN model files found in {MODEL_DIR}")
+    return model_files[-1]
+
+
+def run_real_user_demo(args: argparse.Namespace) -> None:
+    db = DatabaseManager(args.db_path)
+    db.initialize_database()
+
+    agent = DoubleDQNAgent(device="cpu")
+    agent.load(args.model or _latest_model_path())
+    environment = TutoringEnvironment(max_steps=args.max_steps, seed=args.seed)
+
+    session = RealUserSession(
+        student_id=args.student_id,
+        student_name=args.student_name,
+        agent=agent,
+        environment=environment,
+        db_manager=db,
+    )
+
+    estimated_level, initial_difficulty = session.run_pretest(args.pretest_score)
+    learning_summary = session.start_learning_session(max_steps=args.max_steps)
+    learning_gain = session.run_posttest(args.posttest_score)
+    final_summary = session.get_summary()
+
+    print(f"Estimated level: {estimated_level:.3f}")
+    print(f"Initial difficulty: {initial_difficulty}")
+    print(f"Learning session summary: {learning_summary}")
+    print(f"Learning gain: {learning_gain:.3f}")
+    print(f"Final summary: {final_summary}")
+    print(f"Database saved at: {args.db_path}")
+    db.close()
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Run training, plotting, and evaluation for the DDQN text-hint ITS."
@@ -84,6 +138,23 @@ def build_parser() -> argparse.ArgumentParser:
     eval_parser.add_argument("--max-steps", type=int, default=MAX_STEPS_PER_EPISODE)
     eval_parser.add_argument("--seed", type=int, default=100)
 
+    db_parser = subparsers.add_parser("init-db", help="Initialize optional SQLite database.")
+    db_parser.add_argument("--db-path", type=Path, default=DEFAULT_DB_PATH)
+
+    demo_parser = subparsers.add_parser("real-demo", help="Run a minimal real-user session demo.")
+    demo_parser.add_argument("--student-id", type=str, default="DEMO001")
+    demo_parser.add_argument("--student-name", type=str, default="Demo Student")
+    demo_parser.add_argument("--pretest-score", type=float, default=0.62)
+    demo_parser.add_argument("--posttest-score", type=float, default=0.76)
+    demo_parser.add_argument("--max-steps", type=int, default=5)
+    demo_parser.add_argument("--seed", type=int, default=21)
+    demo_parser.add_argument("--model", type=Path, default=None)
+    demo_parser.add_argument(
+        "--db-path",
+        type=Path,
+        default=PROJECT_ROOT / "outputs" / "logs" / "real_user_session_demo.db",
+    )
+
     all_parser = subparsers.add_parser("all", help="Train, plot, and evaluate.")
     all_parser.add_argument("--episodes", type=int, default=NUM_EPISODES)
     all_parser.add_argument("--eval-episodes", type=int, default=20)
@@ -105,6 +176,10 @@ def main() -> None:
         run_plots(args)
     elif args.command == "evaluate":
         run_evaluation(args)
+    elif args.command == "init-db":
+        initialize_database(args)
+    elif args.command == "real-demo":
+        run_real_user_demo(args)
     elif args.command == "all":
         model_path = run_training(args)
         args.log = None

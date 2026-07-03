@@ -15,6 +15,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from agent.double_dqn import DoubleDQNAgent
 from agent.replay_buffer import ReplayBuffer
+from config import config as config_module
 from config.config import (
     BATCH_SIZE,
     BUFFER_SIZE,
@@ -23,6 +24,7 @@ from config.config import (
 )
 from env.environment import TutoringEnvironment
 from training.run_episode import run_episode
+from utils.reproducibility import save_experiment_config, set_global_seed
 
 
 LOG_DIR = PROJECT_ROOT / "outputs" / "logs"
@@ -61,6 +63,7 @@ def train(
     seed: int | None = 42,
 ) -> dict[str, Any]:
     """Train the Double DQN agent and save CSV logs plus model weights."""
+    set_global_seed(seed)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -93,9 +96,25 @@ def train(
     run_id = _timestamp()
     log_path = LOG_DIR / f"training_log_{run_id}.csv"
     model_path = MODEL_DIR / f"double_dqn_{run_id}.pt"
+    config_path = LOG_DIR / f"experiment_config_{run_id}.json"
 
     _write_logs(log_path, episode_logs)
     agent.save(model_path)
+    save_experiment_config(
+        {
+            "seed": seed,
+            "num_episodes": num_episodes,
+            "max_steps_per_episode": max_steps_per_episode,
+            "batch_size": batch_size,
+            "buffer_size": buffer_size,
+            "config": {
+                name: getattr(config_module, name)
+                for name in dir(config_module)
+                if name.isupper()
+            },
+        },
+        config_path,
+    )
 
     return {
         "agent": agent,
@@ -103,6 +122,7 @@ def train(
         "logs": episode_logs,
         "log_path": log_path,
         "model_path": model_path,
+        "config_path": config_path,
     }
 
 
@@ -127,3 +147,4 @@ if __name__ == "__main__":
     )
     print(f"Saved training log: {result['log_path']}")
     print(f"Saved model: {result['model_path']}")
+    print(f"Saved config snapshot: {result['config_path']}")
