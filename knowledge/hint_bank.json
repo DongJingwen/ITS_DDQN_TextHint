@@ -1,0 +1,129 @@
+{
+  "hint_levels": {
+    "level_1": "explicit guidance / strong hint",
+    "level_2": "partial explanation / medium hint",
+    "level_3": "minimal scaffold / weak hint"
+  },
+  "hints": {
+    "KP1_L_Q1": {
+      "level_1": "A quadratic equation contains an x^2 term. Compare both equations and choose the one with x^2.",
+      "level_2": "Look for the equation where the highest power of x is 2.",
+      "level_3": "Which option has degree 2?"
+    },
+    "KP1_M_Q1": {
+      "level_1": "The equation 4x^2 - 7 = 0 has highest power 2, and the coefficient of x^2 is 4, not 0.",
+      "level_2": "Check the highest exponent and make sure the x^2 coefficient is not zero.",
+      "level_3": "What is the degree of the equation?"
+    },
+    "KP1_H_Q1": {
+      "level_1": "For the equation not to be quadratic, the x^2 coefficient must be 0. Set k - 2 = 0.",
+      "level_2": "A quadratic equation stops being quadratic when the coefficient of x^2 becomes zero.",
+      "level_3": "Focus on the coefficient of x^2."
+    },
+    "KP2_L_Q1": {
+      "level_1": "Move 5x - 6 to the left side: x^2 - 5x + 6 = 0.",
+      "level_2": "Standard form is ax^2 + bx + c = 0, so move all terms to one side.",
+      "level_3": "Put every term on the left side."
+    },
+    "KP2_M_Q1": {
+      "level_1": "First expand 2x(x - 3) to get 2x^2 - 6x, then subtract 8 from both sides.",
+      "level_2": "Expand the product before moving all terms to one side.",
+      "level_3": "Use distributive property first."
+    },
+    "KP2_H_Q1": {
+      "level_1": "Expand the left side to x^2 - 3x - 10, then subtract 3x - 4 from both sides.",
+      "level_2": "Expand the brackets, then collect like terms on one side.",
+      "level_3": "Start by expanding (x + 2)(x - 5)."
+    },
+    "KP3_L_Q1": {
+      "level_1": "Take the square root of both sides: x = plus or minus sqrt(25), so x = 5 or -5.",
+      "level_2": "Remember that both positive and negative values can square to 25.",
+      "level_3": "What numbers square to 25?"
+    },
+    "KP3_M_Q1": {
+      "level_1": "Divide both sides by 3 to get x^2 = 16, then take both square roots.",
+      "level_2": "Isolate x^2 before taking the square root.",
+      "level_3": "First make the coefficient of x^2 equal to 1."
+    },
+    "KP3_H_Q1": {
+      "level_1": "Take square roots: x - 2 = 7 or x - 2 = -7, then solve each equation.",
+      "level_2": "After square rooting, remember the two cases: positive and negative.",
+      "level_3": "What can x - 2 equal?"
+    },
+    "KP4_L_Q1": {
+      "level_1": "Factor x^2 - 5x + 6 as (x - 2)(x - 3), then set each factor equal to 0.",
+      "level_2": "Find two numbers that multiply to 6 and add to -5.",
+      "level_3": "Look for two negative factors of 6."
+    },
+    "KP4_M_Q1": {
+      "level_1": "Factor x^2 + x - 12 as (x + 4)(x - 3), then solve each factor.",
+      "level_2": "Find two numbers that multiply to -12 and add to 1.",
+      "level_3": "One factor is positive and one is negative."
+    },
+    "KP4_H_Q1": {
+      "level_1": "Factor 2x^2 - 7x + 3 as (2x - 1)(x - 3), then set each factor equal to 0.",
+      "level_2": "Try factors of 2x^2 and 3 that create a middle term of -7x.",
+      "level_3": "Use the zero-product property after factoring."
+    },
+    "KP5_L_Q1": {
+      "level_1": "Take half of 6, which is 3, then square it to get 9: x^2 + 6x = (x + 3)^2 - 9.",
+      "level_2": "Half the coefficient of x, square it, and form a binomial square.",
+      "level_3": "What is half of 6?"
+    },
+    "KP5_M_Q1": {
+      "level_1": "Move 7 to the right, add 16 to both sides, giving (x + 4)^2 = 9, then solve.",
+      "level_2": "Half of 8 is 4, and 4 squared is 16.",
+      "level_3": "Complete the square using the x coefficient."
+    },
+    "KP5_H_Q1": {
+      "level_1": "Move 16 to the right, add 25 to both sides, giving (x - 5)^2 = 9, then solve.",
+      "level_2": "Half of -10 is -5, and (-5)^2 is 25.",
+      "level_3": "Build a square around x^2 - 10x."
+    },
+    "KP6_L_Q1": {
+      "level_1": "Use a = 1, b = -4, c = 3 in x = (-b plus or minus sqrt(b^2 - 4ac)) / 2a.",
+      "level_2": "Identify a, b, and c, then substitute them into the quadratic formula.",
+      "level_3": "Start with a = 1, b = -4, c = 3."
+    },
+    "KP6_M_Q1": {
+      "level_1": "Use a = 2, b = 3, c = -2. The discriminant is 25, so x = (-3 plus or minus 5) / 4.",
+      "level_2": "Compute b^2 - 4ac first, then substitute into the formula.",
+      "level_3": "What are a, b, and c?"
+    },
+    "KP6_H_Q1": {
+      "level_1": "Use a = 3, b = -2, c = -5. The discriminant is 64, so x = (2 plus or minus 8) / 6.",
+      "level_2": "After finding the discriminant, simplify both formula results.",
+      "level_3": "Use the quadratic formula carefully with signs."
+    },
+    "KP7_L_Q1": {
+      "level_1": "Use b^2 - 4ac with a = 1, b = -6, c = 9: 36 - 36 = 0.",
+      "level_2": "Substitute a, b, and c into the discriminant formula.",
+      "level_3": "The discriminant is b^2 - 4ac."
+    },
+    "KP7_M_Q1": {
+      "level_1": "Use b^2 - 4ac: 2^2 - 4(1)(5) = 4 - 20 = -16, so there are no real solutions.",
+      "level_2": "A negative discriminant means no real solutions.",
+      "level_3": "Check whether b^2 - 4ac is positive, zero, or negative."
+    },
+    "KP7_H_Q1": {
+      "level_1": "Exactly one real solution means the discriminant is 0. Set (-8)^2 - 4(1)c = 0.",
+      "level_2": "For one real solution, use b^2 - 4ac = 0.",
+      "level_3": "One real solution means discriminant zero."
+    },
+    "KP8_L_Q1": {
+      "level_1": "Area equals length times width, so x(x + 3) = 40. Move all terms to one side.",
+      "level_2": "Write length times width equals area, then convert to standard form.",
+      "level_3": "Use area = length times width."
+    },
+    "KP8_M_Q1": {
+      "level_1": "Let the integers be x and x + 1. Then x(x + 1) = 42, so x^2 + x - 42 = 0.",
+      "level_2": "Represent consecutive integers as x and x + 1.",
+      "level_3": "Translate the product statement into an equation."
+    },
+    "KP8_H_Q1": {
+      "level_1": "Set -5t^2 + 20t + 1 = 16, then rearrange to -5t^2 + 20t - 15 = 0 and solve.",
+      "level_2": "Substitute h = 16 and move all terms to one side.",
+      "level_3": "Set the height expression equal to 16."
+    }
+  }
+}
