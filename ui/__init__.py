@@ -1,2 +1,1 @@
-"""Desktop UI package for the DDQN text-hint ITS prototype."""
-
+"""Desktop GUI package for the DDQN text-hint ITS prototype."""

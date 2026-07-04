@@ -1,27 +1,33 @@
-"""Main desktop window for real-user ITS testing."""
+"""Main desktop GUI window with stacked-page navigation."""
 
 from __future__ import annotations
 
-from ui.pages.login_page import LoginPage
-from ui.pages.placeholder_page import PlaceholderPage
+from ui.controller import GUIController
+from ui.learning_page import LearningPage
+from ui.login_page import LoginPage
+from ui.posttest_page import PosttestPage
+from ui.pretest_page import PretestPage
+from ui.progress_page import ProgressPage
 from ui.qt_compat import (
     QHBoxLayout,
     QLabel,
     QListWidget,
     QListWidgetItem,
     QMainWindow,
-    QMessageBox,
     QStackedWidget,
     QVBoxLayout,
     QWidget,
 )
-from ui.services.session_service import UISessionService
+from ui.result_page import ResultPage
+from ui.styles import APP_STYLESHEET
 
 
 class MainWindow(QMainWindow):
-    """Desktop shell with staged pages for the real-user workflow."""
+    """Lightweight desktop shell for the real-user testing workflow."""
 
-    PAGE_NAMES = [
+    APP_TITLE = "Intelligent Tutoring System for Quadratic Equations"
+
+    PAGE_LABELS = [
         "Login",
         "Pre-test",
         "Learning",
@@ -30,21 +36,29 @@ class MainWindow(QMainWindow):
         "Results",
     ]
 
-    def __init__(self, session_service: UISessionService) -> None:
+    def __init__(self, controller: GUIController | None = None) -> None:
         super().__init__()
-        self.session_service = session_service
+        self.controller = controller or GUIController()
         self.sidebar = QListWidget()
         self.stack = QStackedWidget()
-        self.status_label = QLabel("Not logged in")
+        self.status_label = QLabel("No student logged in")
         self.login_page = LoginPage()
+        self.pretest_page = PretestPage()
+        self.learning_page = LearningPage()
+        self.progress_page = ProgressPage()
+        self.posttest_page = PosttestPage()
+        self.result_page = ResultPage()
         self._build_ui()
         self._connect_signals()
 
     def _build_ui(self) -> None:
-        self.setWindowTitle("DDQN Text-Hint ITS")
-        self.resize(1024, 680)
+        self.setWindowTitle(self.APP_TITLE)
+        self.resize(1120, 720)
+        self.setMinimumSize(960, 640)
+        self.setStyleSheet(APP_STYLESHEET)
 
         central = QWidget()
+        central.setObjectName("appRoot")
         root_layout = QHBoxLayout(central)
         root_layout.setContentsMargins(0, 0, 0, 0)
         root_layout.setSpacing(0)
@@ -52,143 +66,72 @@ class MainWindow(QMainWindow):
         sidebar_container = QWidget()
         sidebar_container.setObjectName("sidebar")
         sidebar_layout = QVBoxLayout(sidebar_container)
-        sidebar_layout.setContentsMargins(16, 18, 16, 18)
+        sidebar_layout.setContentsMargins(20, 24, 20, 20)
         sidebar_layout.setSpacing(12)
 
-        app_title = QLabel("ITS Prototype")
-        app_title.setObjectName("sidebarTitle")
-        sidebar_layout.addWidget(app_title)
+        title = QLabel(self.APP_TITLE)
+        title.setObjectName("sidebarTitle")
+        title.setWordWrap(True)
+        subtitle = QLabel("DDQN text-hint prototype for real-user testing")
+        subtitle.setObjectName("sidebarSubtitle")
+        subtitle.setWordWrap(True)
+        self.status_label.setObjectName("statusPill")
+        sidebar_layout.addWidget(title)
+        sidebar_layout.addWidget(subtitle)
         sidebar_layout.addWidget(self.status_label)
         sidebar_layout.addWidget(self.sidebar)
+        sidebar_layout.addStretch()
 
-        for page_name in self.PAGE_NAMES:
-            item = QListWidgetItem(page_name)
-            self.sidebar.addItem(item)
+        footer = QLabel("Quadratic Equations")
+        footer.setObjectName("sidebarFooter")
+        sidebar_layout.addWidget(footer)
+
+        for label in self.PAGE_LABELS:
+            self.sidebar.addItem(QListWidgetItem(label))
+
+        self.stack.addWidget(self.login_page)
+        self.stack.addWidget(self.pretest_page)
+        self.stack.addWidget(self.learning_page)
+        self.stack.addWidget(self.progress_page)
+        self.stack.addWidget(self.posttest_page)
+        self.stack.addWidget(self.result_page)
 
         self.sidebar.setCurrentRow(0)
         self.sidebar.setEnabled(False)
 
-        self.stack.addWidget(self.login_page)
-        self.stack.addWidget(
-            PlaceholderPage(
-                "Pre-test",
-                "This page will collect a pre-test score and estimate the student's initial level.",
-            )
-        )
-        self.stack.addWidget(
-            PlaceholderPage(
-                "Learning Session",
-                "This page will show quadratic equation questions, recommended text hints, answer submission, and re-attempts.",
-            )
-        )
-        self.stack.addWidget(
-            PlaceholderPage(
-                "Progress",
-                "This optional page will display learning progress, hint usage, attempts, and recent accuracy.",
-            )
-        )
-        self.stack.addWidget(
-            PlaceholderPage(
-                "Post-test",
-                "This page will collect a post-test score and calculate learning gain.",
-            )
-        )
-        self.stack.addWidget(
-            PlaceholderPage(
-                "Results",
-                "This page will summarize reward, correctness, response time, attempts, hint usage, and learning gain.",
-            )
-        )
-
         root_layout.addWidget(sidebar_container, 1)
         root_layout.addWidget(self.stack, 4)
         self.setCentralWidget(central)
-        self.setStyleSheet(self._stylesheet())
 
     def _connect_signals(self) -> None:
-        self.login_page.login_submitted.connect(self._handle_login)
         self.sidebar.currentRowChanged.connect(self.stack.setCurrentIndex)
+        self.login_page.login_requested.connect(self._handle_login)
 
-    def _handle_login(self, student_id: str, name: str) -> None:
+    def _handle_login(self, student_id: str, student_name: str) -> None:
         try:
-            profile = self.session_service.login_student(student_id, name)
+            session = self.controller.login_student(student_id, student_name)
         except ValueError as exc:
-            QMessageBox.warning(self, "Login Required", str(exc))
+            self.login_page.show_message(str(exc))
             return
 
-        display_name = profile.name or profile.student_id
+        display_name = session.student_name or session.student_id
         self.status_label.setText(f"Student: {display_name}")
         self.sidebar.setEnabled(True)
         self.sidebar.setCurrentRow(1)
-        QMessageBox.information(self, "Login Complete", "Student profile saved.")
 
-    def closeEvent(self, event) -> None:  # noqa: N802 - Qt method name.
-        self.session_service.close()
-        event.accept()
+    def reset_for_new_student(self) -> None:
+        for page in (
+            self.pretest_page,
+            self.learning_page,
+            self.progress_page,
+            self.posttest_page,
+            self.result_page,
+        ):
+            reset_page = getattr(page, "reset_page", None)
+            if reset_page is not None:
+                reset_page()
 
-    @staticmethod
-    def _stylesheet() -> str:
-        return """
-        QWidget {
-            font-family: Arial;
-            font-size: 14px;
-            color: #1f2933;
-            background: #f7f8fa;
-        }
-        #sidebar {
-            background: #eef1f5;
-            border-right: 1px solid #d7dce2;
-        }
-        #sidebarTitle {
-            font-size: 18px;
-            font-weight: 700;
-        }
-        QListWidget {
-            border: 1px solid #d7dce2;
-            background: #ffffff;
-            padding: 4px;
-        }
-        QListWidget::item {
-            padding: 10px;
-            border-radius: 4px;
-        }
-        QListWidget::item:selected {
-            background: #dce8f7;
-        }
-        #loginPanel {
-            background: #ffffff;
-            border: 1px solid #d7dce2;
-            border-radius: 6px;
-            max-width: 480px;
-        }
-        #pageTitle {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        #pageSubtitle {
-            font-size: 16px;
-            color: #52606d;
-        }
-        #pageDescription {
-            color: #52606d;
-            line-height: 1.4;
-        }
-        QLineEdit {
-            background: #ffffff;
-            border: 1px solid #cbd2d9;
-            border-radius: 4px;
-            padding: 8px;
-        }
-        QPushButton {
-            background: #2563eb;
-            color: #ffffff;
-            border: none;
-            border-radius: 4px;
-            padding: 10px;
-            font-weight: 600;
-        }
-        QPushButton:hover {
-            background: #1d4ed8;
-        }
-        """
-
+        self.login_page.clear_inputs()
+        self.status_label.setText("No student logged in")
+        self.sidebar.setCurrentRow(0)
+        self.sidebar.setEnabled(False)
