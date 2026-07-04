@@ -20,12 +20,14 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+try:
+    from visualization.log_utils import find_default_training_log
+except ModuleNotFoundError:
+    from log_utils import find_default_training_log
+
 
 def _latest_log_path() -> Path:
-    log_files = sorted(LOG_DIR.glob("training_log_*.csv"))
-    if not log_files:
-        raise FileNotFoundError(f"No training logs found in {LOG_DIR}")
-    return log_files[-1]
+    return find_default_training_log(LOG_DIR)
 
 
 def _read_columns(csv_path: Path, required_columns: list[str]) -> dict[str, list[float]]:
@@ -51,6 +53,7 @@ def plot_attempts_curve(
 ) -> Path:
     """Generate and save the average attempts curve figure."""
     csv_path = Path(csv_path) if csv_path else _latest_log_path()
+    print(f"Using training log for attempts curve: {csv_path}")
     output_path = Path(output_path) if output_path else FIGURE_DIR / "average_attempts_curve.png"
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -75,6 +78,7 @@ def plot_response_time_curve(
 ) -> Path:
     """Generate and save the average response time curve figure."""
     csv_path = Path(csv_path) if csv_path else _latest_log_path()
+    print(f"Using training log for response time curve: {csv_path}")
     output_path = (
         Path(output_path) if output_path else FIGURE_DIR / "average_response_time_curve.png"
     )

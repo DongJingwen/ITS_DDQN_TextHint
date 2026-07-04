@@ -15,6 +15,15 @@ SUMMARY_MD_PATH = LOG_DIR / "final_result_summary.md"
 NOT_AVAILABLE = "Not available"
 
 
+try:
+    from visualization.log_utils import find_default_training_log
+except ModuleNotFoundError:
+    import sys
+
+    sys.path.append(str(PROJECT_ROOT))
+    from visualization.log_utils import find_default_training_log
+
+
 def _read_csv(path: Path) -> list[dict[str, str]]:
     if not path.exists():
         return []
@@ -39,14 +48,10 @@ def _fmt(value: Any, digits: int = 4) -> str:
 
 
 def _latest_training_log() -> Path | None:
-    fixed_path = LOG_DIR / "training_log.csv"
-    if fixed_path.exists():
-        return fixed_path
-
-    timestamped_logs = sorted(LOG_DIR.glob("training_log_*.csv"))
-    if not timestamped_logs:
+    try:
+        return find_default_training_log(LOG_DIR)
+    except FileNotFoundError:
         return None
-    return timestamped_logs[-1]
 
 
 def _mean(values: list[float]) -> float | None:

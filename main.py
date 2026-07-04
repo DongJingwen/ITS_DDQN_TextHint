@@ -33,6 +33,7 @@ def run_training(args: argparse.Namespace) -> Path:
     )
     print(f"Training log saved to: {result['log_path']}")
     print(f"Model saved to: {result['model_path']}")
+    args.training_log_path = result["log_path"]
     return result["model_path"]
 
 
@@ -182,7 +183,7 @@ def main() -> None:
         run_real_user_demo(args)
     elif args.command == "all":
         model_path = run_training(args)
-        args.log = None
+        args.log = args.training_log_path
         args.model = model_path
         run_plots(args)
         run_evaluation(args)

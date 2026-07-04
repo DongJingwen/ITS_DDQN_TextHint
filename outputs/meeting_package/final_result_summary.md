@@ -1,16 +1,16 @@
 # Final Experimental Result Summary
 
 ## Training Performance
-- Final average reward: 2.1176
-- Best average reward: 2.1176
-- Final loss: 0.9554
-- Average epsilon: 0.5975
-- Most selected hint level: level_3_weak
+- Final average reward: 44.6086
+- Best average reward: 57.7378
+- Final loss: 2.1561
+- Average epsilon: 0.5944
+- Most selected hint level: level_2_medium
 
 ## Efficiency
-- Average response time: 45.0600
-- Average attempts: 1.6667
-- Average hint usage per episode: 3.0000
+- Average response time: 34.4989
+- Average attempts: 1.4408
+- Average hint usage per episode: 50.0000
 
 ## Baseline Comparison
 - Best performing method: random
