@@ -27,6 +27,7 @@ def run_episode(
     total_reward = 0.0
     losses: list[float] = []
     epsilons: list[float] = []
+    entropies: list[float] = []
     attempts: list[float] = []
     response_times: list[float] = []
     action_counts = {action: 0 for action in range(ACTION_DIM)}
@@ -37,6 +38,8 @@ def run_episode(
         action = agent.select_action(state)
         if len(agent.epsilon_history) > epsilon_count_before:
             epsilons.append(agent.epsilon_history[-1])
+        if getattr(agent, "last_entropy", None) is not None:
+            entropies.append(float(agent.last_entropy))
 
         next_state, reward, done, info = environment.step(action)
         replay_buffer.push(state, action, reward, next_state, done)
@@ -54,6 +57,7 @@ def run_episode(
 
     average_loss = sum(losses) / len(losses) if losses else 0.0
     average_epsilon = sum(epsilons) / len(epsilons) if epsilons else 0.0
+    average_entropy = sum(entropies) / len(entropies) if entropies else 0.0
     average_attempts = sum(attempts) / len(attempts) if attempts else 0.0
     average_response_time = (
         sum(response_times) / len(response_times) if response_times else 0.0
@@ -63,6 +67,7 @@ def run_episode(
         "total_reward": total_reward,
         "average_loss": average_loss,
         "average_epsilon": average_epsilon,
+        "average_entropy": average_entropy,
         "average_attempts": average_attempts,
         "average_response_time": average_response_time,
         "action_0_count": action_counts[0],

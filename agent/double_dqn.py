@@ -85,6 +85,8 @@ class DoubleDQNAgent:
         self.optimizer = torch.optim.Adam(self.online_network.parameters(), lr=learning_rate)
         self.loss_history: list[float] = []
         self.epsilon_history: list[float] = []
+        self.entropy_history: list[float] = []
+        self.last_entropy: float | None = None
         self.update_count = 0
         self.current_episode = 1
         self.total_episodes = 1
@@ -106,6 +108,7 @@ class DoubleDQNAgent:
         temperature = max(self.softmax_temperature, 1e-8)
         probabilities = F.softmax(q_values / temperature, dim=-1)
         entropy = -(probabilities * torch.log(probabilities + 1e-8)).sum()
+        self.last_entropy = float(entropy.item())
         epsilon = self.epsilon_min + self.lambda_entropy * entropy.item()
         return float(np.clip(epsilon, self.epsilon_min, self.epsilon_max))
 
@@ -147,6 +150,8 @@ class DoubleDQNAgent:
 
         epsilon = self.compute_epsilon(q_values)
         self.epsilon_history.append(epsilon)
+        if self.last_entropy is not None:
+            self.entropy_history.append(self.last_entropy)
 
         if random.random() < epsilon:
             return random.randrange(self.action_dim)

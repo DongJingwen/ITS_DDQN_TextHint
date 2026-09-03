@@ -15,6 +15,8 @@ KEY_FILES = [
     PROJECT_ROOT / "README_PROJECT_DESIGN.md",
     OUTPUTS_DIR / "logs" / "final_result_summary.csv",
     OUTPUTS_DIR / "logs" / "final_result_summary.md",
+    OUTPUTS_DIR / "figures" / "cumulative_reward_curve.png",
+    OUTPUTS_DIR / "figures" / "average_reward_per_episode_curve.png",
     OUTPUTS_DIR / "figures" / "reward_curve.png",
     OUTPUTS_DIR / "figures" / "loss_curve.png",
     OUTPUTS_DIR / "figures" / "dynamic_epsilon_curve.png",
@@ -24,6 +26,7 @@ KEY_FILES = [
 ]
 
 KEY_DIRECTORIES = [
+    OUTPUTS_DIR / "figures" / "meeting_analysis",
     OUTPUTS_DIR / "figures" / "baseline",
     OUTPUTS_DIR / "figures" / "ablation",
 ]

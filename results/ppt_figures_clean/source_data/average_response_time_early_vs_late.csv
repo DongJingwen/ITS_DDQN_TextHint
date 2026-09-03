@@ -1,0 +1,3 @@
+period,average_response_time,n_episodes,source_log
+First 50 Episodes,34.784644538309685,50,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/training_log_20260703_155932.csv
+Last 50 Episodes,35.01696988003901,50,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/training_log_20260703_155932.csv

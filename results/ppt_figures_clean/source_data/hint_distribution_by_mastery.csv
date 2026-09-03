@@ -1,0 +1,10 @@
+group,action,hint_level,count,percentage,grouping_method,source_log
+Low Mastery,0,Level 1: Strong Guidance,1,50.0,tertile_rank_groups,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/exports/demo/interaction_logs.csv
+Low Mastery,1,Level 2: Partial Guidance,0,0.0,tertile_rank_groups,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/exports/demo/interaction_logs.csv
+Low Mastery,2,Level 3: Minimal Scaffold,1,50.0,tertile_rank_groups,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/exports/demo/interaction_logs.csv
+Medium Mastery,0,Level 1: Strong Guidance,1,50.0,tertile_rank_groups,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/exports/demo/interaction_logs.csv
+Medium Mastery,1,Level 2: Partial Guidance,1,50.0,tertile_rank_groups,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/exports/demo/interaction_logs.csv
+Medium Mastery,2,Level 3: Minimal Scaffold,0,0.0,tertile_rank_groups,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/exports/demo/interaction_logs.csv
+High Mastery,0,Level 1: Strong Guidance,1,50.0,tertile_rank_groups,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/exports/demo/interaction_logs.csv
+High Mastery,1,Level 2: Partial Guidance,0,0.0,tertile_rank_groups,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/exports/demo/interaction_logs.csv
+High Mastery,2,Level 3: Minimal Scaffold,1,50.0,tertile_rank_groups,/Users/jingwendong/Documents/Codex/2026-07-03/you-are-working-on-a-phd/ITS_DDQN_TextHint/outputs/logs/exports/demo/interaction_logs.csv
