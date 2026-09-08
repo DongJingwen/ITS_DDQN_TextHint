@@ -1,0 +1,32 @@
+{
+  "experiment_id": "20260908T012149Z_c44d903b",
+  "source_directory": "/Users/jingwendong/Documents/UPM_Phd/backup/ITS_DDQN_TextHint/outputs/journal_experiment/final/20260908T012149Z_c44d903b",
+  "analysis_scope": "frozen data only",
+  "python": "3.7.2 (v3.7.2:9a3ffc0492, Dec 24 2018, 02:44:43) \n[Clang 6.0 (clang-600.0.57)]",
+  "numpy": "1.21.6",
+  "scipy": "1.7.3",
+  "matplotlib": "3.5.3",
+  "statistical_alpha": 0.05,
+  "primary_holm_family": [
+    "mean_step_reward",
+    "correct_rate",
+    "average_attempts",
+    "average_response_time",
+    "mastery_gain"
+  ],
+  "ci_level": 0.95,
+  "early_episodes": [
+    1,
+    50
+  ],
+  "late_episodes": [
+    451,
+    500
+  ],
+  "outliers_removed": 0,
+  "rq_classifications": {
+    "RQ1": "NOT SUPPORTED",
+    "RQ2": "MIXED",
+    "RQ3": "PARTIALLY SUPPORTED"
+  }
+}

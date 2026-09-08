@@ -64,8 +64,10 @@ class DoubleDQNAgent:
         softmax_temperature: float = SOFTMAX_TEMPERATURE,
         target_update_frequency: int = TARGET_UPDATE_FREQUENCY,
         device: str | torch.device | None = None,
+        rng: random.Random | None = None,
     ) -> None:
         self.state_dim = state_dim
+        self.rng = rng if rng is not None else random
         self.action_dim = action_dim
         self.gamma = gamma
         self.epsilon_min = epsilon_min
@@ -153,8 +155,8 @@ class DoubleDQNAgent:
         if self.last_entropy is not None:
             self.entropy_history.append(self.last_entropy)
 
-        if random.random() < epsilon:
-            return random.randrange(self.action_dim)
+        if self.rng.random() < epsilon:
+            return self.rng.randrange(self.action_dim)
 
         return int(torch.argmax(q_values).item())
 
@@ -173,10 +175,7 @@ class DoubleDQNAgent:
 
         current_q_values = self.online_network(states_tensor).gather(1, actions_tensor).squeeze(1)
 
-        with torch.no_grad():
-            next_actions = torch.argmax(self.online_network(next_states_tensor), dim=1, keepdim=True)
-            next_q_values = self.target_network(next_states_tensor).gather(1, next_actions).squeeze(1)
-            target_q_values = rewards_tensor + self.gamma * next_q_values * (1.0 - dones_tensor)
+        target_q_values = self.compute_td_targets(rewards_tensor, next_states_tensor, dones_tensor)
 
         loss = F.mse_loss(current_q_values, target_q_values)
 
@@ -191,6 +190,14 @@ class DoubleDQNAgent:
         loss_value = float(loss.item())
         self.loss_history.append(loss_value)
         return loss_value
+
+    @torch.no_grad()
+    def compute_td_targets(self, rewards: torch.Tensor, next_states: torch.Tensor,
+                           dones: torch.Tensor) -> torch.Tensor:
+        """Double DQN: online selection, target-network evaluation."""
+        next_actions = self.online_network(next_states).argmax(dim=1, keepdim=True)
+        next_values = self.target_network(next_states).gather(1, next_actions).squeeze(1)
+        return rewards + self.gamma * next_values * (1.0 - dones)
 
     def update_target_network(self) -> None:
         """Synchronize target network parameters from the online network."""

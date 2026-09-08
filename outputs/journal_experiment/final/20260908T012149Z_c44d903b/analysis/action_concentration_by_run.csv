@@ -1,0 +1,21 @@
+Policy,Run_ID,Largest_Action_Percent,Dominant_Action,Near_Collapse_95_Percent,Zero_Use_Actions
+DQN,dqn_seed_42,72.46000000000001,Strong Guidance,False,none
+DQN,dqn_seed_43,63.13999999999999,Partial Guidance,False,none
+DQN,dqn_seed_44,75.64,Strong Guidance,False,none
+DQN,dqn_seed_45,71.02000000000001,Strong Guidance,False,Partial Guidance
+DQN,dqn_seed_46,58.36,Partial Guidance,False,none
+DQN,dqn_seed_47,97.72,Strong Guidance,True,Minimal Scaffold
+DQN,dqn_seed_48,53.839999999999996,Strong Guidance,False,none
+DQN,dqn_seed_49,51.06,Strong Guidance,False,none
+DQN,dqn_seed_50,48.74,Strong Guidance,False,none
+DQN,dqn_seed_51,42.76,Minimal Scaffold,False,none
+DDQN,ddqn_seed_42,54.42,Partial Guidance,False,none
+DDQN,ddqn_seed_43,87.12,Partial Guidance,False,none
+DDQN,ddqn_seed_44,46.58,Partial Guidance,False,none
+DDQN,ddqn_seed_45,57.4,Strong Guidance,False,none
+DDQN,ddqn_seed_46,65.78,Minimal Scaffold,False,none
+DDQN,ddqn_seed_47,82.24000000000001,Strong Guidance,False,none
+DDQN,ddqn_seed_48,56.3,Strong Guidance,False,none
+DDQN,ddqn_seed_49,45.56,Minimal Scaffold,False,none
+DDQN,ddqn_seed_50,51.76,Strong Guidance,False,none
+DDQN,ddqn_seed_51,87.22,Strong Guidance,False,none

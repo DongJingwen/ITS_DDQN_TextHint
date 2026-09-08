@@ -20,10 +20,11 @@ class Transition(NamedTuple):
 class ReplayBuffer:
     """Fixed-size experience replay buffer."""
 
-    def __init__(self, capacity: int) -> None:
+    def __init__(self, capacity: int, rng: random.Random | None = None) -> None:
         if capacity <= 0:
             raise ValueError("ReplayBuffer capacity must be positive.")
         self.capacity = capacity
+        self.rng = rng if rng is not None else random
         self.buffer: Deque[Transition] = deque(maxlen=capacity)
 
     def push(
@@ -56,7 +57,7 @@ class ReplayBuffer:
                 f"Cannot sample batch_size={batch_size} from buffer with {len(self.buffer)} items."
             )
 
-        transitions = random.sample(self.buffer, batch_size)
+        transitions = self.rng.sample(list(self.buffer), batch_size)
 
         states = np.stack([transition.state for transition in transitions]).astype(np.float32)
         actions = np.array([transition.action for transition in transitions], dtype=np.int64)

@@ -75,6 +75,7 @@ def train(
     episode_logs: list[dict[str, Any]] = []
 
     for episode in range(1, num_episodes + 1):
+        agent.set_training_progress(episode, num_episodes)
         episode_summary = run_episode(
             environment=environment,
             agent=agent,

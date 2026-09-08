@@ -1,0 +1,6 @@
+Policy,Run_ID,Metric,Value,Lower_Fence,Upper_Fence,Action
+DDQN,ddqn_seed_46,mean_step_reward,0.6374558948957078,0.6882230772915661,0.9717557748130148,retained; no technical defect found
+DDQN,ddqn_seed_46,correct_rate,0.6232,0.6540500000000002,0.8200499999999997,retained; no technical defect found
+DDQN,ddqn_seed_46,average_attempts,1.6498000000000002,1.2511999999999999,1.5884,retained; no technical defect found
+DDQN,ddqn_seed_46,average_response_time,39.21446306257539,28.745959879866344,38.99092085125753,retained; no technical defect found
+DDQN,ddqn_seed_46,mastery_gain,0.32237661115705635,0.3413393144463909,0.5201274364844085,retained; no technical defect found

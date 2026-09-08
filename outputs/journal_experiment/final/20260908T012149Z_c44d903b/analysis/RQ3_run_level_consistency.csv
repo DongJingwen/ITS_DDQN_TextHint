@@ -1,0 +1,19 @@
+State,Contrast,Hint,N_Runs,Mean_Difference_Percentage_Points,Positive_Runs,Negative_Runs,Zero_Runs,Exact_Sign_Flip_P,Holm_P,Interpretation
+mastery,Medium minus Low,Strong Guidance,2,22.631692792140257,2,0,0,0.5,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+mastery,Medium minus Low,Partial Guidance,2,7.511761293457172,2,0,0,0.5,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+mastery,Medium minus Low,Minimal Scaffold,2,-30.14345408559743,0,2,0,0.5,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+mastery,High minus Low,Strong Guidance,2,19.5923224705691,2,0,0,0.5,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+mastery,High minus Low,Partial Guidance,2,55.63276773089231,2,0,0,0.5,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+mastery,High minus Low,Minimal Scaffold,2,-75.22509020146141,0,2,0,0.5,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+mastery,High minus Medium,Strong Guidance,10,-26.719613990824122,2,8,0,0.013671875,0.19140625,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+mastery,High minus Medium,Partial Guidance,10,33.983577400673916,9,1,0,0.00390625,0.0703125,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+mastery,High minus Medium,Minimal Scaffold,10,-7.263963409849799,5,5,0,0.51171875,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+difficulty,Medium minus Low,Strong Guidance,10,-16.041176470588233,2,8,0,0.0078125,0.125,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+difficulty,Medium minus Low,Partial Guidance,10,8.576470588235292,7,3,0,0.107421875,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+difficulty,Medium minus Low,Minimal Scaffold,10,7.46470588235294,7,2,1,0.0625,0.75,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+difficulty,High minus Low,Strong Guidance,10,-22.396323529411763,1,9,0,0.005859375,0.099609375,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+difficulty,High minus Low,Partial Guidance,10,7.255514705882352,7,3,0,0.34765625,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+difficulty,High minus Low,Minimal Scaffold,10,15.140808823529412,8,2,0,0.01171875,0.17578125,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+difficulty,High minus Medium,Strong Guidance,10,-6.355147058823528,1,9,0,0.087890625,0.966796875,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+difficulty,High minus Medium,Partial Guidance,10,-1.3209558823529406,4,6,0,0.771484375,1.0,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts
+difficulty,High minus Medium,Minimal Scaffold,10,7.676102941176471,7,2,1,0.0390625,0.5078125,supporting across-run association conditional on fixed scenarios; assumes symmetric run-level contrasts

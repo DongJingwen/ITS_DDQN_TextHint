@@ -1,0 +1,6 @@
+Metric,N,Test,Statistic,Raw_P,Holm_P,Rank_Biserial,Interpretation
+mean_step_reward,10,Wilcoxon signed-rank exact sign enumeration; supplementary robustness check,20.0,0.4921875,1.0,-0.2727272727272727,does not replace the prespecified primary paired t-test
+correct_rate,10,Wilcoxon signed-rank exact sign enumeration; supplementary robustness check,18.0,0.375,1.0,-0.34545454545454546,does not replace the prespecified primary paired t-test
+average_attempts,10,Wilcoxon signed-rank exact sign enumeration; supplementary robustness check,19.0,0.431640625,1.0,0.3090909090909091,does not replace the prespecified primary paired t-test
+average_response_time,10,Wilcoxon signed-rank exact sign enumeration; supplementary robustness check,18.0,0.375,1.0,0.34545454545454546,does not replace the prespecified primary paired t-test
+mastery_gain,10,Wilcoxon signed-rank exact sign enumeration; supplementary robustness check,20.0,0.4921875,1.0,-0.2727272727272727,does not replace the prespecified primary paired t-test

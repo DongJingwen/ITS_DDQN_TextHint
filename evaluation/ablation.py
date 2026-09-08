@@ -62,6 +62,7 @@ def _write_episode_log(log_path: Path, episode_logs: list[dict[str, Any]]) -> No
         "total_reward",
         "average_loss",
         "average_epsilon",
+        "average_entropy",
         "average_attempts",
         "average_response_time",
         "action_0_count",

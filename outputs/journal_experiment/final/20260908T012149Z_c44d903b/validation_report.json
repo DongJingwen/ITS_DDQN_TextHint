@@ -1,0 +1,27 @@
+{
+  "experiment_id": "20260908T012149Z_c44d903b",
+  "completed_dqn_runs": 10,
+  "completed_ddqn_runs": 10,
+  "total_training_interactions": 500000,
+  "total_held_out_evaluation_interactions": 115000,
+  "all_validation_checks_passed": true,
+  "validation_checks": {
+    "all_runs_completed": "passed",
+    "seed_separation": "passed",
+    "checkpoint_traceability": "passed",
+    "mastery_bounds": "passed",
+    "valid_actions": "passed",
+    "fixed_action_1": "passed",
+    "greedy_evaluation": "passed",
+    "evaluation_model_immutability": "passed",
+    "required_logging_fields": "passed",
+    "reward_reconciliation": "passed"
+  },
+  "runtime_audit": {
+    "training_interactions": 500000,
+    "evaluation_interactions": 115000,
+    "guarded_learned_evaluation_episodes": 2000,
+    "failed_or_repeated_runs": [],
+    "torch_intraop_threads": 1
+  }
+}

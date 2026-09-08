@@ -1,0 +1,3 @@
+State,Test,Statistic,DF,P_Value,Log10_Nominal_P,P_Value_Note,Cramers_V,Minimum_Expected_Cell,Interactions,Independent_Trained_Runs,Interpretation
+mastery,pooled Pearson chi-square; independence reference only,5947.881494758926,4,<1e-300,-1288.0925777739317,below floating-point range; report p < 1e-300,0.24388278936322927,6.8726,50000,10,nested observations violate independent-row inference; use effect size and by-run patterns
+difficulty,pooled Pearson chi-square; independence reference only,2143.463880748872,4,<1e-300,-462.41677657223795,below floating-point range; report p < 1e-300,0.14640573351986158,3141.76,50000,10,nested observations violate independent-row inference; use effect size and by-run patterns
